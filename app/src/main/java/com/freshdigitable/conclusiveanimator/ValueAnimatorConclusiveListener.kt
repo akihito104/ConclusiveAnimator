@@ -27,22 +27,12 @@ private class ValueAnimatorConclusiveListener(
         listener?.onAnimationRepeat(animation)
     }
 
-    private var isCanceled = false
-
     override fun onAnimationCancel(animation: Animator?) {
-        isCanceled = true
         (animation as? ValueAnimator)?.currentPlayTime = 0
         listener?.onAnimationCancel(animation)
-        onAnimationTerminate(animation)
     }
 
     override fun onAnimationEnd(animation: Animator?) {
-        if (isCanceled) {
-            return
-        }
-        (animation as? ValueAnimator)?.run {
-            currentPlayTime = duration
-        }
         listener?.onAnimationEnd(animation)
         onAnimationTerminate(animation)
     }
